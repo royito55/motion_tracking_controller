@@ -6,9 +6,23 @@
 
 namespace legged {
 
+// vector_t MotionCommandTerm::getValue() {
+//   return (vector_t(getSize()) << motionPolicy_->getJointPosition(), motionPolicy_->getJointVelocity()).finished();
+// }
 vector_t MotionCommandTerm::getValue() {
-  return (vector_t(getSize()) << motionPolicy_->getJointPosition(), motionPolicy_->getJointVelocity()).finished();
+  const vector_t jointPos = motionPolicy_->getJointPosition();     // 23
+  const vector_t jointVel = motionPolicy_->getJointVelocity();     // 23
+  const vector3_t anchorPos = motionPolicy_->getBodyPositions()[anchorMotionIndex_];  // 3
+  
+  vector_t result(getSize());  // Should be 48
+  result.head(23) = jointPos;
+  result.segment(23, 23) = jointVel;
+  result(46) = anchorPos(0);  // x
+  result(47) = anchorPos(1);  // y
+  
+  return result;
 }
+
 
 void MotionCommandTerm::reset() {
   const auto& pinModel = model_->getPinModel();
@@ -58,10 +72,12 @@ vector_t MotionCommandTerm::getAnchorOrientationLocal() const {
   const auto& anchorPoseReal = model_->getPinData().oMf[anchorRobotIndex_];
   const pinocchio::SE3 anchorOri(motionPolicy_->getBodyOrientations()[anchorMotionIndex_], vector3_t::Zero());
   const auto rot = anchorPoseReal.actInv(worldToInit_.act(anchorOri)).rotation();
-  vector_t rot6(6);
-  rot6 << rot(0, 0), rot(0, 1), rot(1, 0), rot(1, 1), rot(2, 0), rot(2, 1);
-  return rot6;
+  quaternion_t quat(rot);
+  vector_t quat4(4);
+  quat4 << quat.x(), quat.y(), quat.z(), quat.w();
+  return quat4;
 }
+
 
 vector_t MotionCommandTerm::getRobotBodyPositionLocal() const {
   const auto& data = model_->getPinData();

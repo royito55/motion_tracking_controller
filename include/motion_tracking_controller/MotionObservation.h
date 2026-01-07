@@ -31,7 +31,7 @@ class MotionAnchorPosition final : public MotionObservation {
 class MotionAnchorOrientation final : public MotionObservation {
  public:
   using MotionObservation::MotionObservation;
-  size_t getSize() const override { return 6; }
+  size_t getSize() const override { return 4; }
 
  protected:
   vector_t evaluate() override { return commandTerm_->getAnchorOrientationLocal(); }

@@ -167,7 +167,7 @@ def generate_launch_description():
         executable='mujoco_sim',
         parameters=[
             {"model_package": "motion_tracking_controller",
-             "model_file": PythonExpression(["'mjcf/", robot_type, "/g1_29dof.xml'"]),
+             "model_file": PythonExpression(["'mjcf/", robot_type, "/g1.xml'"]),
              "physics_plugins": ["mujoco_ros2_control::MujocoRos2ControlPlugin"],
              "use_sim_time": True
              },
