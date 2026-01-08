@@ -30,7 +30,10 @@ class MotionCommandTerm : public CommandTerm {
   vector_t getRobotBodyOrientationLocal() const;
 
  protected:
-  size_t getSize() const override { return 2 * model_->getNumJoints() + 2; }  // joint_pos + joint_vel + anchor_xy
+size_t getSize() const override { 
+  size_t numActuatedJoints = model_->getNumJoints() - 6;  // Subtract 6 DOF from floating base
+  return 2 * numActuatedJoints + 2;  // joint_pos + joint_vel + anchor_xy
+}
 
   MotionCommandCfg cfg_;
   MotionOnnxPolicy::SharedPtr motionPolicy_;

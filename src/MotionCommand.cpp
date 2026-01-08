@@ -10,23 +10,40 @@ namespace legged {
 //   return (vector_t(getSize()) << motionPolicy_->getJointPosition(), motionPolicy_->getJointVelocity()).finished();
 // }
 vector_t MotionCommandTerm::getValue() {
-  const vector_t jointPos = motionPolicy_->getJointPosition();     // 23
-  const vector_t jointVel = motionPolicy_->getJointVelocity();     // 23
-  const vector3_t anchorPos = motionPolicy_->getBodyPositions()[anchorMotionIndex_];  // 3
+  const vector_t jointPos = motionPolicy_->getJointPosition();
+  const vector_t jointVel = motionPolicy_->getJointVelocity();
+  const vector3_t anchorPos = motionPolicy_->getBodyPositions()[anchorMotionIndex_];
   
-  vector_t result(getSize());  // Should be 48
+  std::cerr << "DEBUG: jointPos size = " << jointPos.size() << std::endl;
+  std::cerr << "DEBUG: jointVel size = " << jointVel.size() << std::endl;
+  std::cerr << "DEBUG: getSize() = " << getSize() << std::endl;
+  
+  vector_t result(getSize());
   result.head(23) = jointPos;
   result.segment(23, 23) = jointVel;
-  result(46) = anchorPos(0);  // x
-  result(47) = anchorPos(1);  // y
+  result(46) = anchorPos(0);
+  result(47) = anchorPos(1);
+  
+  std::cerr << "DEBUG: result size = " << result.size() << std::endl;
   
   return result;
 }
 
 
+
 void MotionCommandTerm::reset() {
+
+  
   const auto& pinModel = model_->getPinModel();
   anchorRobotIndex_ = pinModel.getFrameId(cfg_.anchorBody);
+
+  // DEBUG: Print all joint names
+  std::cerr << "DEBUG: Total joints from model: " << model_->getNumJoints() << std::endl;
+  std::cerr << "DEBUG: Joint names from Pinocchio model:" << std::endl;
+  for (size_t i = 0; i < pinModel.joints.size(); ++i) {
+    std::cerr << "  Joint " << i << ": " << pinModel.names[i] << std::endl;
+  }
+
   if (anchorRobotIndex_ >= pinModel.nframes) {
     throw std::runtime_error("Anchor body " + cfg_.anchorBody + " not found.");
   }

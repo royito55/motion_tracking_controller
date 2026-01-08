@@ -66,10 +66,10 @@
         <xacro:joint_interface name="right_shoulder_yaw_joint" initial_pos="0"/>
         <xacro:joint_interface name="right_elbow_joint" initial_pos="1.28"/>
         <xacro:joint_interface name="right_wrist_roll_joint" initial_pos="0" kp="5" kd="0.5"/>
-        <xacro:leg_joint_interface prefix="FL"/>
+        <!-- <xacro:leg_joint_interface prefix="FL"/>
         <xacro:leg_joint_interface prefix="FR"/>
         <xacro:leg_joint_interface prefix="RL"/>
-        <xacro:leg_joint_interface prefix="RR"/>
+        <xacro:leg_joint_interface prefix="RR"/> -->
     </xacro:macro>
 
 </robot>
