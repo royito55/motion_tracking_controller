@@ -35,10 +35,10 @@
         </sensor>
 
         <!-- ADD THIS FLOATING BASE JOINT -->
-        <joint name="floating_base_joint">
+        <!-- <joint name="floating_base_joint">
             <state_interface name="position"/>
             <state_interface name="velocity"/>
-        </joint>
+        </joint> -->
 
         <xacro:joint_interface name="left_hip_pitch_joint" initial_pos="-0.1"/>
         <xacro:joint_interface name="left_hip_roll_joint" initial_pos="0"/>
