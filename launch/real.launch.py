@@ -126,10 +126,10 @@ def generate_launch_description():
         PathJoinSubstitution([FindExecutable(name='xacro')]),
         " ",
         PathJoinSubstitution([
-            FindPackageShare("unitree_description"),
+            FindPackageShare("motion_tracking_controller"),
             "urdf",
             urdf_name,
-            "robot.xacro"
+            "robot_23dof.xacro"
         ]),
         " ", "robot_type:=", robot_type,
         " ", "simulation:=", "false",
@@ -144,7 +144,7 @@ def generate_launch_description():
         output='screen',
         parameters=[robot_description, {
             'publish_frequency': 500.0,
-            'use_sim_time': True
+            'use_sim_time': False
         }],
     )
 
