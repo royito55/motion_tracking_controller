@@ -13,7 +13,7 @@ state_estimator:
   ros__parameters:
     model:
       base_name: "pelvis"
-      six_dof_contact_names: [ "left_ankle_roll_link", "right_ankle_roll_link" ]
+      six_dof_contact_names: [ "LL_FOOT", "LR_FOOT" ]
     estimation:
       position:
         noise: 1e-2
